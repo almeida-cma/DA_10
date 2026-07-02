@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEMA 10 - Modificadores de Acesso (Exemplo Funcional)</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: white;
+        }
+        .header h1 { font-size: 1.8rem; margin-bottom: 8px; }
+        .header p { opacity: 0.9; font-size: 0.95rem; }
+        .badge-group {
+            display: flex; flex-wrap: wrap; gap: 10px;
+            justify-content: center; margin-top: 15px;
+        }
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 16px; border-radius: 30px; font-size: 0.8rem;
+        }
+        .nav-tabs {
+            display: flex; flex-wrap: wrap; gap: 6px;
+            margin-bottom: 20px; background: rgba(255,255,255,0.1);
+            padding: 10px; border-radius: 40px;
+        }
+        .tab-link {
+            background: rgba(255,255,255,0.2); border: none;
+            padding: 8px 18px; border-radius: 30px;
+            color: white; cursor: pointer; font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+        .tab-link:hover { background: rgba(255,255,255,0.4); }
+        .tab-link.active { background: #f5576c; }
+        .card {
+            background: white; border-radius: 18px;
+            padding: 25px; margin-bottom: 20px;
+        }
+        .card h2 {
+            color: #f5576c; margin-bottom: 15px;
+            border-left: 5px solid #f5576c; padding-left: 15px;
+            font-size: 1.3rem;
+        }
+        .card h3 {
+            color: #c0392b; margin: 18px 0 10px 0; font-size: 1.1rem;
+        }
+        .step {
+            background: #f8f9fa; border-radius: 10px;
+            padding: 10px 14px; margin-bottom: 10px;
+            border-left: 4px solid #f5576c; font-size: 0.95rem;
+        }
+        .step-number {
+            display: inline-block; background: #f5576c;
+            color: white; width: 24px; height: 24px;
+            border-radius: 50%; text-align: center; line-height: 24px;
+            font-size: 11px; font-weight: bold; margin-right: 10px;
+        }
+        .code-block {
+            position: relative; background: #1e1e2e;
+            color: #c9d1d9; border-radius: 10px;
+            padding: 15px; margin: 10px 0;
+            overflow-x: auto; font-family: 'Consolas', monospace;
+            font-size: 12px; line-height: 1.5;
+        }
+        .code-block pre { margin: 0; white-space: pre-wrap; word-wrap: break-word; }
+        .copy-btn {
+            position: absolute; top: 6px; right: 6px;
+            background: #f5576c; color: white; border: none;
+            padding: 3px 12px; border-radius: 6px;
+            cursor: pointer; font-size: 10px;
+        }
+        .copy-btn:hover { background: #c0392b; }
+        .copy-btn.copied { background: #28a745; }
+        .highlight {
+            padding: 10px 14px; border-radius: 10px;
+            border-left: 4px solid #17a2b8; margin: 10px 0;
+            font-size: 13px;
+        }
+        .info { background: #d1ecf1; border-left-color: #17a2b8; }
+        .tip { background: #fff3cd; border-left-color: #ffc107; }
+        .success { background: #d4edda; border-left-color: #28a745; }
+        .warning { background: #f8d7da; border-left-color: #dc3545; }
+        .file-box {
+            background: #f0f0f0; border-radius: 8px;
+            padding: 10px 14px; margin: 8px 0;
+            font-family: monospace; font-size: 12px;
+            border-left: 4px solid #f5576c;
+        }
+        .file-box .file { color: #c0392b; font-weight: bold; }
+        .tree {
+            background: #f8f9fa; border-radius: 12px;
+            padding: 15px; font-family: monospace; font-size: 12px;
+        }
+        .resultado-teste {
+            background: #2c3e50; color: #ecf0f1;
+            border-radius: 8px; padding: 10px 14px;
+            font-family: monospace; font-size: 12px; margin: 5px 0;
+        }
+        .resultado-teste .ok { color: #2ecc71; }
+        .resultado-teste .erro { color: #e74c3c; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .footer {
+            background: #f8f9fa; padding: 20px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center; border-radius: 0 0 18px 18px;
+        }
+        .footer p { color: #1a1a2e; }
+        .btn-top {
+            position: fixed; bottom: 20px; right: 20px;
+            background: #f5576c; color: white; border: none;
+            padding: 8px 16px; border-radius: 40px;
+            cursor: pointer; font-size: 11px;
+        }
+        @media (max-width: 768px) {
+            .card { padding: 18px; }
+            .header h1 { font-size: 1.3rem; }
+            .tab-link { padding: 6px 12px; font-size: 0.7rem; }
+            .header { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🔑 TEMA 10 - Modificadores de Acesso</h1>
+        <p>public | private | protected | default</p>
+        <div class="badge-group">
+            <span class="badge">🌍 public</span>
+            <span class="badge">🔒 private</span>
+            <span class="badge">🛡️ protected</span>
+            <span class="badge">📦 default</span>
+        </div>
+    </div>
+
+    <div class="nav-tabs">
+        <button class="tab-link active" data-tab="config">📋 CONFIGURAÇÃO</button>
+        <button class="tab-link" data-tab="codigos">📄 CÓDIGOS</button>
+        <button class="tab-link" data-tab="testes">🧪 EXECUTAR</button>
+        <button class="tab-link" data-tab="resumo">📊 RESUMO</button>
+    </div>
+
+    <!-- ============================================================ -->
+    <div id="config" class="tab-content active">
+        <div class="card">
+            <h2>🚀 Configuração do Projeto</h2>
+
+            <div class="step"><span class="step-number">1</span> File → New Project → Java with Ant → Java Application</div>
+            <div class="step"><span class="step-number">2</span> Project Name: <code>Tema10Modificadores</code></div>
+            <div class="step"><span class="step-number">3</span> ✅ Create Main Class → <code>tema10.Main</code></div>
+            <div class="step"><span class="step-number">4</span> Clique em <strong>Finish</strong></div>
+
+            <div class="highlight tip">💡 Agora vamos criar os pacotes e classes!</div>
+
+            <h3>📁 Criar os Pacotes</h3>
+            <div class="step"><span class="step-number">1</span> Botão direito em <strong>Source Packages</strong> → New → Java Package</div>
+            <div class="step"><span class="step-number">2</span> Digite: <code>pacote1</code> → Finish</div>
+            <div class="step"><span class="step-number">3</span> Repita: <code>pacote2</code> → Finish</div>
+
+            <div class="tree">
+                📁 Tema10Modificadores/<br>
+                &nbsp;&nbsp;└── 📁 Source Packages/<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 📁 pacote1/<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├── 📄 ClasseA.java<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;└── 📄 TesteMesmoPacote.java<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── 📁 pacote2/<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── 📄 TesteOutroPacote.java
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <div id="codigos" class="tab-content">
+        <div class="card">
+            <h2>📄 Códigos para Criar</h2>
+
+            <h3>1. ClasseA.java (pacote1)</h3>
+            <div class="file-box">📄 <span class="file">pacote1/ClasseA.java</span></div>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-a')">📋 Copiar</button>
+                <pre id="code-a"><code>package pacote1;
+
+public class ClasseA {
+    // 1. PUBLIC - acessível em qualquer lugar
+    public String nomePublico = "Publico";
+
+    // 2. PRIVATE - acessível só dentro da classe
+    private String nomePrivate = "Private";
+
+    // 3. PROTECTED - acessível no pacote e por subclasses
+    protected String nomeProtected = "Protected";
+
+    // 4. DEFAULT (sem modificador) - acessível só no mesmo pacote
+    String nomeDefault = "Default";
+
+    // Método para acessar o private (permitido, pois está dentro da classe)
+    public void mostrarPrivate() {
+        System.out.println("Acessando private DENTRO da classe: " + nomePrivate);
+    }
+
+    // Método para testar todos os modificadores DENTRO da classe
+    public void testarDentroClasse() {
+        System.out.println("=== DENTRO DA CLASSE A ===");
+        System.out.println("public: " + nomePublico);
+        System.out.println("private: " + nomePrivate);    // ✅ funciona!
+        System.out.println("protected: " + nomeProtected);
+        System.out.println("default: " + nomeDefault);
+    }
+}</code></pre>
+            </div>
+
+            <h3>2. TesteMesmoPacote.java (pacote1)</h3>
+            <div class="file-box">📄 <span class="file">pacote1/TesteMesmoPacote.java</span></div>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-mesmo')">📋 Copiar</button>
+                <pre id="code-mesmo"><code>package pacote1;
+
+public class TesteMesmoPacote {
+    public static void main(String[] args) {
+        ClasseA obj = new ClasseA();
+
+        System.out.println("=== TESTE NO MESMO PACOTE (pacote1) ===");
+
+        // ✅ public - funciona (qualquer lugar)
+        System.out.println("public: " + obj.nomePublico);
+
+        // ✅ protected - funciona (mesmo pacote)
+        System.out.println("protected: " + obj.nomeProtected);
+
+        // ✅ default - funciona (mesmo pacote)
+        System.out.println("default: " + obj.nomeDefault);
+
+        // ❌ private - NÃO funciona (fora da classe)
+        // System.out.println("private: " + obj.nomePrivate); // ERRO!
+
+        // ✅ Acessando private via método público
+        obj.mostrarPrivate();
+
+        System.out.println("\n✅ No MESMO pacote: public, protected e default funcionam!");
+        System.out.println("❌ private NÃO funciona (só dentro da classe).");
+    }
+}</code></pre>
+            </div>
+
+            <h3>3. TesteOutroPacote.java (pacote2)</h3>
+            <div class="file-box">📄 <span class="file">pacote2/TesteOutroPacote.java</span></div>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-outro')">📋 Copiar</button>
+                <pre id="code-outro"><code>package pacote2;
+
+import pacote1.ClasseA;
+
+public class TesteOutroPacote {
+    public static void main(String[] args) {
+        ClasseA obj = new ClasseA();
+
+        System.out.println("=== TESTE EM OUTRO PACOTE (pacote2) ===");
+
+        // ✅ public - funciona (qualquer lugar)
+        System.out.println("public: " + obj.nomePublico);
+
+        // ❌ protected - NÃO funciona (outro pacote, sem herança)
+        // System.out.println("protected: " + obj.nomeProtected); // ERRO!
+
+        // ❌ default - NÃO funciona (outro pacote)
+        // System.out.println("default: " + obj.nomeDefault); // ERRO!
+
+        // ❌ private - NÃO funciona (fora da classe)
+        // System.out.println("private: " + obj.nomePrivate); // ERRO!
+
+        // ✅ Acessando private via método público (funciona, pois o método é public)
+        obj.mostrarPrivate();
+
+        System.out.println("\n✅ Em OUTRO pacote: apenas public funciona!");
+        System.out.println("❌ protected, default e private NÃO funcionam.");
+    }
+}</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <div id="testes" class="tab-content">
+        <div class="card">
+            <h2>🧪 Como Executar os Testes</h2>
+
+            <div class="step"><span class="step-number">1</span> Abra o arquivo que deseja executar</div>
+            <div class="step"><span class="step-number">2</span> Clique com botão direito → <strong>Run File</strong> (ou Shift + F6)</div>
+
+            <h3 style="margin-top:20px;">📤 Saída do TesteMesmoPacote</h3>
+            <div class="resultado-teste">
+=== TESTE NO MESMO PACOTE (pacote1) ===<br>
+public: Publico<br>
+protected: Protected<br>
+default: Default<br>
+Acessando private DENTRO da classe: Private<br>
+<br>
+✅ No MESMO pacote: public, protected e default funcionam!<br>
+❌ private NÃO funciona (só dentro da classe).
+            </div>
+
+            <h3 style="margin-top:20px;">📤 Saída do TesteOutroPacote</h3>
+            <div class="resultado-teste">
+=== TESTE EM OUTRO PACOTE (pacote2) ===<br>
+public: Publico<br>
+Acessando private DENTRO da classe: Private<br>
+<br>
+✅ Em OUTRO pacote: apenas public funciona!<br>
+❌ protected, default e private NÃO funcionam.
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <div id="resumo" class="tab-content">
+        <div class="card">
+            <h2>📊 Resumo dos Modificadores de Acesso</h2>
+
+            <table style="width:100%; border-collapse:collapse; margin:10px 0; font-size:13px;">
+                <thead>
+                    <tr style="background:#f5576c; color:white;">
+                        <th style="padding:8px 10px; border:1px solid #ddd; text-align:left;">Modificador</th>
+                        <th style="padding:8px 10px; border:1px solid #ddd; text-align:left;">Mesmo Pacote</th>
+                        <th style="padding:8px 10px; border:1px solid #ddd; text-align:left;">Outro Pacote</th>
+                        <th style="padding:8px 10px; border:1px solid #ddd; text-align:left;">Dentro da Classe</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td style="padding:8px 10px; border:1px solid #ddd;"><strong>public</strong></td><td style="padding:8px 10px; border:1px solid #ddd;">✅ Sim</td><td style="padding:8px 10px; border:1px solid #ddd;">✅ Sim</td><td style="padding:8px 10px; border:1px solid #ddd;">✅ Sim</td></tr>
+                    <tr><td style="padding:8px 10px; border:1px solid #ddd;"><strong>protected</strong></td><td style="padding:8px 10px; border:1px solid #ddd;">✅ Sim</td><td style="padding:8px 10px; border:1px solid #ddd;">❌ Não</td><td style="padding:8px 10px; border:1px solid #ddd;">✅ Sim</td></tr>
+                    <tr><td style="padding:8px 10px; border:1px solid #ddd;"><strong>default</strong></td><td style="padding:8px 10px; border:1px solid #ddd;">✅ Sim</td><td style="padding:8px 10px; border:1px solid #ddd;">❌ Não</td><td style="padding:8px 10px; border:1px solid #ddd;">✅ Sim</td></tr>
+                    <tr><td style="padding:8px 10px; border:1px solid #ddd;"><strong>private</strong></td><td style="padding:8px 10px; border:1px solid #ddd;">❌ Não</td><td style="padding:8px 10px; border:1px solid #ddd;">❌ Não</td><td style="padding:8px 10px; border:1px solid #ddd;">✅ Sim</td></tr>
+                </tbody>
+            </table>
+
+            <div class="highlight info">
+                🎯 <strong>RESUMO DIDÁTICO:</strong>
+                <ul style="margin-left:20px; margin-top:10px;">
+                    <li><strong>🌍 public:</strong> "Todo mundo pode ver" → aberto ao mundo</li>
+                    <li><strong>🔒 private:</strong> "Só eu posso ver" → apenas dentro da classe</li>
+                    <li><strong>🛡️ protected:</strong> "Eu e minha família" → pacote + subclasses</li>
+                    <li><strong>📦 default:</strong> "Só meus vizinhos" → apenas no mesmo pacote</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>📚 TEMA 10 - Modificadores de Acesso em Java</p>
+        <p>🎯 Aprenda a controlar a visibilidade dos membros da classe!</p>
+    </div>
+</div>
+
+<button class="btn-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆️ Topo</button>
+
+<script>
+    const tabs = document.querySelectorAll('.tab-link');
+    const contents = document.querySelectorAll('.tab-content');
+    tabs.forEach(t => {
+        t.addEventListener('click', function() {
+            tabs.forEach(l => l.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+            this.classList.add('active');
+            document.getElementById(this.dataset.tab).classList.add('active');
+        });
+    });
+
+    function copyCode(btn, id) {
+        const el = document.getElementById(id);
+        navigator.clipboard.writeText(el.innerText).then(() => {
+            btn.textContent = '✅ Copiado!';
+            btn.classList.add('copied');
+            setTimeout(() => { btn.textContent = '📋 Copiar'; btn.classList.remove('copied'); }, 2000);
+        });
+    }
+</script>
+</body>
+</html>

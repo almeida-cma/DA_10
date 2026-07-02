@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sumário - TEMA 10 | Modificadores de Acesso em Java</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .main-card {
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 40px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .badge-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .topic {
+            margin-bottom: 25px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 20px;
+        }
+
+        .topic:last-child {
+            border-bottom: none;
+        }
+
+        .topic-header {
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .topic-number {
+            background: #f5576c;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .topic-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+
+        .topic-title a {
+            color: #1a1a2e;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .topic-title a:hover {
+            color: #f5576c;
+        }
+
+        .activity-badge {
+            background: #dc3545;
+            color: white;
+            font-size: 0.7rem;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .support-badge {
+            background: #17a2b8;
+            color: white;
+            font-size: 0.7rem;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .subtopics {
+            margin-left: 48px;
+            margin-top: 12px;
+            list-style: none;
+        }
+
+        .subtopics li {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .subtopic-icon {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .subtopics a {
+            color: #2a5298;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .subtopics a:hover {
+            color: #f5576c;
+            text-decoration: underline;
+        }
+
+        .file-type {
+            background: #f0f0f0;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-family: monospace;
+            color: #666;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .form-box {
+            background: #e7f3ff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .form-box a {
+            color: #2196f3;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .form-box a:hover {
+            text-decoration: underline;
+        }
+
+        .delivery-box {
+            background: #d4edda;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid #28a745;
+        }
+
+        .delivery-box strong {
+            color: #155724;
+        }
+
+        .delivery-box code {
+            background: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .icon-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        hr {
+            margin: 20px 0;
+            border: none;
+            border-top: 1px solid #ddd;
+        }
+
+        .copyright {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .content {
+                padding: 25px;
+            }
+            .footer {
+                padding: 25px;
+            }
+            .topic-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .subtopics {
+                margin-left: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-card">
+            <!-- Header -->
+            <div class="header">
+                <h1>🔑 TEMA 10 - JAVA</h1>
+                <div class="subtitle">Modificadores de Acesso | public | private | protected | default</div>
+                <div class="badge-container">
+                    <span class="badge">🌍 public</span>
+                    <span class="badge">🔒 private</span>
+                    <span class="badge">🛡️ protected</span>
+                    <span class="badge">📦 default</span>
+                </div>
+            </div>
+
+            <!-- Conteúdo -->
+            <div class="content">
+                <!-- Item 1 -->
+                <div class="topic">
+                    <div class="topic-header">
+                        <span class="topic-number">1</span>
+                        <div class="topic-title">
+                            <a href="t10.html" target="_blank">📘 TEMA 10 - Modificadores de Acesso</a>
+                        </div>
+                    </div>
+                    <ul class="subtopics">
+                        <li>
+                            <span class="subtopic-icon">📖</span>
+                            <span>Conceitos: public, private, protected e default</span>
+                        </li>
+                        <li>
+                            <span class="subtopic-icon">💻</span>
+                            <span>Exemplos práticos com pacotes diferentes</span>
+                        </li>
+                        <li>
+                            <span class="subtopic-icon">🧪</span>
+                            <span>Testes para cada modificador de acesso</span>
+                        </li>
+                        <li>
+                            <span class="subtopic-icon">📊</span>
+                            <span>Resumo com tabela comparativa</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="topic">
+                    <div class="topic-header">
+                        <span class="topic-number">2</span>
+                        <div class="topic-title">
+                            <a href="atividades.html" target="_blank">📝 Atividade de Fixação - Modificadores de Acesso</a>
+                            <span class="activity-badge">📌 ATIVIDADE</span>
+                        </div>
+                    </div>
+                    <ul class="subtopics">
+                        <li>
+                            <span class="subtopic-icon">📝</span>
+                            <span>10 questões sobre modificadores de acesso</span>
+                        </li>
+                        <li>
+                            <span class="subtopic-icon">⚖️</span>
+                            <span>Múltipla escolha e Verdadeiro/Falso</span>
+                        </li>
+                        <li>
+                            <span class="subtopic-icon">📊</span>
+                            <span>Correção automática com gabarito</span>
+                        </li>
+                        <li>
+                            <span class="subtopic-icon">🖨️</span>
+                            <span>Opção de imprimir resultado em PDF</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                <!-- Formulário -->
+                <div class="form-box">
+                    <div class="icon-text">📋</div>
+                    <strong>Formulário para entrega das atividades (item 2) e relatório da aula:</strong><br>
+                    <a href="https://forms.gle/zbUB57A4FteUDsKSA" target="_blank">https://forms.gle/zbUB57A4FteUDsKSA</a>
+                </div>
+
+                <!-- Entrega -->
+                <div class="delivery-box">
+                    <div class="icon-text">📤</div>
+                    <strong>ENTREGA:</strong><br>
+                    Prints do <strong>resultado</strong> da atividade (item 2) + link do repositório <code>java10</code>
+                </div>
+
+                <hr>
+
+                <div class="copyright">
+                    📚 TEMA 10 - Modificadores de Acesso | Material de apoio para estudos
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
